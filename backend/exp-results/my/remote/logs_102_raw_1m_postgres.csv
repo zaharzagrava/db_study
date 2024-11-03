@@ -1,0 +1,2 @@
+ID, Name, Description, Mean, SD, By Row Mean, By Row SD, First Row Mean, First Row SD, Code
+0fc9bff2-b6b0-4013-91ec-c7697b9221b6, _102_raw_1m, [postgres. 3], 136842, 7750, 3, 5, 133972, 7855, "SELECT ""id"", ""name"", ""zohoId"", ""parentId"", ""createdAt"", ""updatedAt"", ""deletedAt"" FROM ""Department"" AS ""Department"" ORDER BY ""Department"".""name"" ASC"

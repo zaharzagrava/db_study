@@ -1,0 +1,460 @@
+
+Query timings: >
+  sequelize/lib/dialects/postgres/query.js / Query / run - query being run, this is where time should be monitored
+    set benchmark = true, and you will get accurate measurement
+  sequelize/lib/dialects/oracle/query.js
+  sequelize/lib/dialects/mysql/query.js / Query / run
+  sequelize/lib/dialects/mssql/query.js / Query / _run
+    set benchmark = true, and you will get accurate measurement
+  sequelize/lib/dialects/abstract/query.js / AbstractQuery / handleSelectQuery - joins post processing
+
+  finish oracle row by row timings
+
+Experiments:
+  list:
+    1: Docker - perf of each DB
+    2: Normal - perf of each DB
+      - check how to optimize mssql
+    3: Manual opt with prompts
+    4: Increase worker count number
+    5: Use indexes
+    6: Use partitions
+    7: Order joins vs no joins (prob of the same table since ordering) with same amount of records
+    8: 100k 1m 10m records
+    9: before & after cleaning a db
+    10: constraints affect on ordering
+      - how constraint from '20231205080459-add-userkpiassignmentid-audit.js' and in '20230929061830-add-bis-action-audit.js' will affect ordering?
+    11: different field types ordering
+      - uuid ids vs regular ids
+    12: complex requests
+      - compare all databases with your production /departments request. Add some ordering and compare performance
+  notes:
+    obesrvations:
+      For every single difference in performance for your experiment, compare this improvement, to improvement that would have happened to that request withour ORDER BY
+        that way, you'll figure out whether your performance improvements are specific to ordering or just overall performance improvements
+    setup:
+      1: >
+        MariaDB - t3.micro
+        PostgreSQL - t3.micro
+        MySQL - t3.micro
+        Oracle - t3.small (any edition)
+        MSSQL - 
+
+
+Other experiments: >
+  For 27 add 1-2 related records to check whether the LEFT OUTER JOIN is only activated when there are at least some fields left or is it trully linear
+  For 31 and 32 improve functionality, so that you don't have to go into seeds service to set it up
+  Left join creates 5 extra columns with nulls. Create a table with 5 extra columns and fetch and compare it with left join, this way you will check if left join is actually that slower than inner join
+
+  there is something wrong with Oracle, MSSQL transactions. Migrations are not reverted sometimes
+
+TODO: >
+  ability to execute requests separately
+
+  1 experiment - simple
+  2 - added by row and first row
+  3 - tested on external dbs
+  4 - ще декілька запитів
+    Department table only
+    Limit 500
+    Partition
+    Index
+
+  test different use cases that teacher would like to do with the app, and verify that everything works.
+  prepare what kind of questions they might ask, and answer them
+
+  Висновок : бібліотеки навіть після модифікації не дозволяють ефективно відрізнити швидкість передачі даних від швидкості обробки даних. Можливо це через те, що вони байндяться
+
+  Compile the code and then test
+  Leave only Department table
+  Test on other dbs
+  Experiment with data types
+  Try on different PC
+
+  create ability to connect to any db
+  create fork for some libraries
+    create support for first row metric
+  create universal endpoint that will accept
+    db creds
+      driver
+    command (migrate, run query with # of query)
+    type of query (time to first row, full, STATISTICS / EXPLAIN ANALYZE etc. / high load)
+  create maria db
+
+  ensure maria db uuid type is the best one, since it seems like it has built-in uuid type
+
+  maybe the perf difference between postgres and mssql is due to how the drivers read data from the TCP connection?
+
+  user swap_flag for MySQL index improvement
+  
+  get memory occupied by docker containers, check that they have same settings
+    also in parallel and cleanup settings
+
+  Create separate tab for main experiments
+  check out different ways to measure performance with EXPLAIN ANALYZE
+  Connect to multiple DBs
+
+  --- MSSQL permissions
+  https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/UsingWithRDS.MasterAccounts.html
+  https://stackoverflow.com/questions/54572034/aws-sql-server-rds-master-user-access
+  https://stackoverflow.com/questions/48749465/master-user-lost-its-permissions-unexpectedly-on-sql-server-rds-instance#
+  https://stackoverflow.com/questions/56064968/granting-access-to-database-rds-sql-server
+  https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/UsingWithRDS.MasterAccounts.html
+  https://serverfault.com/questions/496966/amazon-rds-sql-server-master-user-privileges
+  https://serverfault.com/questions/146691/add-the-current-admin-user-to-sql-server-express-2008
+
+  --- performance comparison works
+  https://docs.google.com/viewerng/viewer?url=http://er.ucu.edu.ua//bitstream/handle/1/2878/Sofiia-Valeriia+Kholod.pdf?sequence%3D1&isAllowed=y
+  https://er.ucu.edu.ua/handle/1/2878
+  https://er.ucu.edu.ua/bitstream/handle/1/2878/Sofiia-Valeriia%20Kholod.pdf?sequence=1&isAllowed=y
+  https://www.altexsoft.com/blog/comparing-database-management-systems-mysql-postgresql-mssql-server-mongodb-elasticsearch-and-others/
+
+QUERIES: >
+  psql -h localhost -p 5410 -U postgres postgres -W
+
+  -- 30
+  SELECT count(*)
+  FROM "Department" AS "Department"
+  LEFT OUTER JOIN "Department" AS "subDepartments"
+  ON "Department"."id" = "subDepartments"."parentId" AND ("subDepartments"."deletedAt" IS NULL)
+  WHERE ("Department"."deletedAt" IS NULL AND "Department"."id" = 'cf806767-1bc8-4542-b91e-d6708b3b7e23');
+
+  -- 27
+  SELECT "Department"."id",
+  "Department"."name",
+  "Department"."zohoId",
+  "Department"."parentId",
+  "Department"."createdAt",
+  "Department"."updatedAt",
+  "Department"."deletedAt"
+  FROM "Department" AS "Department"
+  INNER JOIN "Department" AS "subDepartments"
+  ON "Department"."id" = "subDepartments"."parentId" AND ("subDepartments"."deletedAt" IS NULL)
+  WHERE ("Department"."deletedAt" IS NULL);
+
+  -- 33
+  SELECT count(*)
+  FROM "Department" AS "Department"
+  INNER JOIN "Department" AS "subDepartments"
+  ON "Department"."id" = "subDepartments"."parentId" AND ("subDepartments"."deletedAt" IS NULL)
+  WHERE ("Department"."deletedAt" IS NULL AND "Department"."id" = 'cf806767-1bc8-4542-b91e-d6708b3b7e23');
+
+  --- 32
+  SELECT "id", "name", "zohoId", "parentId", "createdAt", "updatedAt", "deletedAt"
+  FROM "Department" AS "Department"
+  WHERE ("Department"."deletedAt" IS NULL);
+
+  -- 34     
+  SELECT "Department"."id",
+  "Department"."name",
+  "Department"."zohoId",
+  "Department"."parentId",
+  "Department"."createdAt",
+  "Department"."updatedAt",
+  "Department"."deletedAt"
+  FROM "Department" AS "Department"
+  INNER JOIN "Department" AS "subDepartments"
+  ON "Department"."id" = "subDepartments"."parentId" AND ("subDepartments"."deletedAt" IS NULL)
+  WHERE ("Department"."deletedAt" IS NULL AND "Department"."parentId" IS NULL);
+
+  -- 35
+  SELECT "Department"."id",
+  "Department"."name",
+  "Department"."zohoId",
+  "Department"."parentId",
+  "Department"."createdAt",
+  "Department"."updatedAt",
+  "Department"."deletedAt"
+  FROM "Department" AS "Department"
+  LEFT OUTER JOIN "Department" AS "subDepartments"
+  ON "Department"."id" = "subDepartments"."parentId" AND ("subDepartments"."deletedAt" IS NULL)
+  WHERE ("Department"."deletedAt" IS NULL AND "Department"."parentId" IS NULL);
+
+  select count(*) from "Department";
+
+
+
+  EXPLAIN ANALYZE
+  SELECT "Department"."id",
+  "Department"."name",
+  "Department"."zohoId",
+  "Department"."parentId",
+  "Department"."createdAt",
+  "Department"."updatedAt",
+  "Department"."deletedAt"
+  FROM "Department" AS "Department"
+  LEFT OUTER JOIN "Department" AS "subDepartments"
+  ON "Department"."id" = "subDepartments"."parentId";
+
+
+
+  EXPLAIN ANALYZE
+  SELECT "Department"."id",
+  "Department"."name"
+  FROM "Department" AS "Department"
+  LEFT OUTER JOIN "Department" AS "subDepartments"
+  ON "Department"."id" = "subDepartments"."parentId";
+
+
+
+  EXPLAIN ANALYZE
+  SELECT count("Department".id),
+  "Department"."name"
+  FROM "Department" AS "Department"
+  LEFT OUTER JOIN "Department" AS "subDepartments"
+  ON "Department"."id" = "subDepartments"."parentId"
+  GROUP BY "Department".id;
+
+
+
+  EXPLAIN ANALYZE
+  SELECT "Department".id,
+  "Department"."name"
+  FROM "Department" AS "Department"
+  LEFT OUTER JOIN "Department" AS "subDepartments"
+  ON "Department"."id" = "subDepartments"."parentId"
+  ORDER BY "Department".id;
+
+PostgreSQL Query Investigation Set: >
+  -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- (40)
+
+  EXPLAIN ANALYZE
+  SELECT "Department".id,
+  "Department"."name"
+  FROM "Department" AS "Department"
+  LEFT OUTER JOIN "Department" AS "subDepartments"
+  ON "Department"."id" = "subDepartments"."parentId";
+
+  -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -20ms optimized (41)
+
+  EXPLAIN ANALYZE
+  /*+
+  Parallel(Department 3 hard)
+  Parallel(subDepartments 5 hard)
+  */
+  SELECT "Department".id,
+  "Department"."name"
+  FROM "Department" AS "Department"
+  LEFT OUTER JOIN "Department" AS "subDepartments"
+  ON "Department"."id" = "subDepartments"."parentId";
+
+
+  -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+  -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+  -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- (42)
+
+  -- 250ms
+  EXPLAIN ANALYZE
+  /*+
+  Parallel(Department 3 hard)
+  Parallel(subDepartments 5 hard)
+  */
+  SELECT "Department".id,
+  "Department"."name"
+  FROM "Department" AS "Department"
+  LEFT OUTER JOIN "Department" AS "subDepartments"
+  ON "Department"."id" = "subDepartments"."parentId"
+  GROUP BY "Department".id;
+
+  -- 330ns
+  EXPLAIN ANALYZE
+  SELECT "Department".id,
+  "Department"."name"
+  FROM "Department" AS "Department"
+  LEFT OUTER JOIN "Department" AS "subDepartments"
+  ON "Department"."id" = "subDepartments"."parentId"
+  GROUP BY "Department".id;
+
+  -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- (43)
+
+  -- 470ns
+  EXPLAIN ANALYZE
+  /*+
+  SeqScan(Department)
+  Parallel(Department)
+  Parallel(subDepartments)
+  HashJoin(Department subDepartments)
+  */
+  SELECT "Department".id,
+  "Department"."name"
+  FROM "Department" AS "Department"
+  LEFT OUTER JOIN "Department" AS "subDepartments"
+  ON "Department"."id" = "subDepartments"."parentId"
+  GROUP BY "Department".id;
+
+  -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- (44)
+
+  -- 270ms
+  EXPLAIN ANALYZE
+  /*+
+  <b>HashJoin(Department subDepartments)</b>
+  <b>SeqScan(Department)</b>
+  */
+  SELECT "Department".id,
+  "Department"."name"
+  FROM "Department" AS "Department"
+  LEFT OUTER JOIN "Department" AS "subDepartments"
+  ON "Department"."id" = "subDepartments"."parentId"
+  ORDER BY "Department".id;
+
+DRIVERS_IMPROVEMENTS: >
+  /home/zagrava/workspace/db-study/backend/node_modules/pg-native/index.js
+
+OTHER_QUERIES: >
+  redo postgres 105
+
+  SET SHOWPLAN_TEXT OFF;
+
+
+  SET STATISTICS PROFILE ON;
+  select *
+  from dbo.Department;
+  SET STATISTICS PROFILE OFF;
+
+  SET STATISTICS PROFILE ON;
+  SET STATISTICS PROFILE OFF;
+  SET STATISTICS XML OFF;
+
+  set statistics time on;
+
+  SELECT count(Department.id)
+  FROM "Department" AS "Department";
+
+  select count(*) from "Department";
+
+  select *
+  from dbo.Department order by Department.name;
+
+
+  SET STATISTICS TIME ON;
+  GO
+  SELECT count(*)
+  FROM "Department" AS "Department";
+  GO
+  SET STATISTICS TIME OFF;
+  GO
+
+
+  select count(*)
+  from dbo.Department;
+
+  delete from dbo.Department;
+
+  SELECT [id], [name], [zohoId], [parentId], [createdAt], [updatedAt], [deletedAt]
+  FROM [Department] AS [Department]
+  WHERE ([Department].[deletedAt] IS NULL);
+
+
+  SELECT r.session_id,
+        st.TEXT AS batch_text,
+        qp.query_plan AS 'XML Plan',
+        r.start_time,
+        r.status,
+        r.total_elapsed_time
+  FROM sys.dm_exec_requests AS r
+      CROSS APPLY sys.dm_exec_sql_text(r.sql_handle) AS st
+      CROSS APPLY sys.dm_exec_query_plan(r.plan_handle) AS qp
+  WHERE DB_NAME(r.database_id) = 'testdb'
+  ORDER BY cpu_time DESC;
+
+
+  INSERT INTO [Department] ([id], [name], [zohoId], [parentId], [createdAt], [updatedAt])
+  OUTPUT INSERTED.[id],
+        INSERTED.[name],
+        INSERTED.[zohoId],
+        INSERTED.[parentId],
+        INSERTED.[createdAt],
+        INSERTED.[updatedAt],
+        INSERTED.[deletedAt]
+  VALUES (0x4d4f19fb864dfffe89ed25b4072fc4d2, N'Regional Accountability Administrator-03ce9d32-a', N'rsrjTBJvrsoPoG4HH2',
+          NULL, '2024-07-22 22:18:00.962 +00:00', '2025-03-31 22:46:39.329 +00:00'),
+        (0x441986f9ce9641bab2afbbf8710d17dc, N'Lead Configuration Analyst-0fd043a5-9', N'AQthu8xox7C4UX1sAv', NULL,
+          '2023-11-24 07:10:55.276 +00:00', '2024-06-27 00:50:07.688 +00:00'),
+        (0x48e7eb389df4ebd98f07d615d2fd2f43, N'National Directives Engineer-d8f24a0c-9', N'2pewhjmdbbaFg87DGa', NULL,
+          '2024-07-12 22:47:04.295 +00:00', '2025-03-11 14:48:09.043 +00:00'),
+        (0x4b0b092d0ee989288c5cd56f52b4321e, N'District Intranet Manager-b27c6715-8', N'kDsniRn7BEidtkbVnS', NULL,
+          '2023-12-19 07:30:28.188 +00:00', '2024-08-23 18:16:04.966 +00:00'),
+        (0x45228241bbb14c068f86360c958d8a0e, N'Principal Directives Supervisor-45a52582-2', N'S4jzsyhYTXD6jeS824', NULL,
+          '2024-06-14 17:03:13.906 +00:00', '2024-09-18 06:02:54.975 +00:00'),
+        (0x43ecc252fb93742bb244cb2c8002aafb, N'Chief Solutions Planner-1d3aabbe-c', N'65i43lu6g6e3ohTFn1', NULL,
+          '2024-07-02 01:03:06.187 +00:00', '2025-05-08 12:10:36.602 +00:00'),
+        (0x4f02ec03cb40edfa810aef29eee3b284, N'Forward Operations Officer-60fa3f2a-8', N'GPeRMDPQeAQTTuV4tn', NULL,
+          '2024-11-24 17:00:51.071 +00:00', '2024-10-16 14:17:09.223 +00:00'),
+        (0x479fc6b78600e77ebaee0d376e4fccd1, N'Investor Infrastructure Analyst-58b0abf8-e', N'0eHmFG2u5BQ4tngHfu', NULL,
+          '2023-11-25 03:07:00.187 +00:00', '2024-05-07 01:08:41.951 +00:00'),
+        (0x43c6735a4da02564904ebbb4c2c54ea8, N'Lead Assurance Officer-0392bd38-c', N'3wN1P6JyoYricYl1mI', NULL,
+          '2025-04-07 13:54:06.490 +00:00', '2023-07-05 01:22:12.789 +00:00'),
+        (0x4ad931114dd69247ba71dd6f6d0af861, N'Senior Optimization Consultant-b558bb4a-c', N'wRmabISpaRnufRNFM0', NULL,
+          '2024-03-21 22:19:58.837 +00:00', '2023-11-23 13:00:44.048 +00:00');
+
+  -------------------------------------------------------------
+
+  let i = 0
+  // called when libpq is readable
+  Client.prototype._read = function () {
+    console.log('@read ' + i++);
+    var pq = this.pq
+
+    console.log('@performance.now()')
+    console.log(performance.now())
+
+    this.emit('readyForQuery')
+    throw new Error('asdgasgasfg')
+
+    // // read waiting data from the socket
+    // // e.g. clear the pending 'select'
+    // if (!pq.consumeInput()) {
+    //   // if consumeInput returns false
+    //   // than a read error has been encountered
+    //   return this._readError()
+    // }
+
+    // // check if there is still outstanding data
+    // // if so, wait for it all to come in
+    // if (pq.isBusy()) {
+    //   return
+    // }
+
+    // // load our result object
+
+    // while (pq.getResult()) {
+    //   const resultStatus = this._emitResult(this.pq)
+
+    //   console.log('@resultStatus');
+    //   console.log(resultStatus);
+
+    //   // if the command initiated copy mode we need to break out of the read loop
+    //   // so a substream can begin to read copy data
+    //   if (resultStatus === 'PGRES_COPY_BOTH' || resultStatus === 'PGRES_COPY_OUT') {
+    //     break
+    //   }
+
+    //   // if reading multiple results, sometimes the following results might cause
+    //   // a blocking read. in this scenario yield back off the reader until libpq is readable
+    //   if (pq.isBusy()) {
+    //     return
+    //   }
+    // }
+
+    // this.emit('readyForQuery')
+
+    // var notice = this.pq.notifies()
+    // while (notice) {
+    //   this.emit('notification', notice)
+    //   notice = this.pq.notifies()
+    // }
+  }
+
+  -------------------------------------------------------------
+
+  if (key === '_101_raw_100k') {
+    this.l.log(`Clean #${key} with ${dbEngine} on ${env}`);
+    await this.seedsService.seedDepartmentsWithParents({
+      depsCount: 1,
+      db: { type: 'sql', dbEngine },
+      cleanup: true,
+      env,
+      subDepartmentsCount: 0,
+      connectionCreds: this.getConnectionDataFromEngine(dbEngine, env),
+    });
+  }

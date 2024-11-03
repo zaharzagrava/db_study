@@ -1,0 +1,2 @@
+ID, Name, Description, Mean, SD, By Row Mean, By Row SD, First Row Mean, First Row SD, Code
+073c41d4-ba11-4186-a0ee-d194c2c962dc, _102_raw_100k, [mysql. 5], 18340, 1059, 179, 70, 269, 6, "SELECT `id`, `name`, `zohoId`, `parentId`, `createdAt`, `updatedAt`, `deletedAt` FROM `Department` AS `Department` ORDER BY `Department`.`name` ASC"

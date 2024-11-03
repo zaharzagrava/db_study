@@ -1,0 +1,11 @@
+ID, Name, Description, Mean, SD, By Row Mean, By Row SD, First Row Mean, First Row SD, Code
+a91bfee0-cd41-48c8-afa2-4e991f1577c4, _103_orm_100k, [postgres. 10], 578, 17, , , NaN, NaN, "[object Object]"
+d6486f51-53ac-46be-907c-f3ce69049f8f, _103_orm_100k, [mssql. 10], 867, 47, , , NaN, NaN, "[object Object]"
+a867eff8-0d50-4cca-a58e-abce15837d87, _103_orm_100k, [mysql. 10], 582, 20, , , NaN, NaN, "[object Object]"
+976b0a51-419c-461d-a9cc-1bb5341321c6, _103_orm_100k, [oracle. 10], 1169, 23, , , NaN, NaN, "[object Object]"
+5c286d58-664f-481b-8e50-90ae1dc1878f, _103_orm_100k, [mariadb. 10], 659, 20, , , NaN, NaN, "[object Object]"
+c2b032fc-0b7b-42ee-8ca3-84d699d81776, _103_orm_1m, [postgres. 10], 6554, 352, , , NaN, NaN, "[object Object]"
+0d53e03a-02f6-4216-a43e-e419e0fb8cb1, _103_orm_1m, [mssql. 10], 12042, 1190, , , NaN, NaN, "[object Object]"
+895c491b-d85b-410c-befc-d2022ba16b6e, _103_orm_1m, [mysql. 10], 6825, 383, , , NaN, NaN, "[object Object]"
+96dd7d44-d2c9-4fe1-821f-adac9f1c5f12, _103_orm_1m, [oracle. 10], 36075, 952, , , NaN, NaN, "[object Object]"
+48893d1b-903a-41e9-b870-b065d81a0f6f, _103_orm_1m, [mariadb. 10], 8095, 182, , , NaN, NaN, "[object Object]"

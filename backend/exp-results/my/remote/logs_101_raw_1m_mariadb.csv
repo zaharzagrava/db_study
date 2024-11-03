@@ -1,0 +1,2 @@
+ID, Name, Description, Mean, SD, By Row Mean, By Row SD, First Row Mean, First Row SD, Code
+a9bdaaaf-c948-4f61-af99-552b91d5cfce, _101_raw_1m, [mariadb. 3], 111662, 10201, 111, 55, 132, 1, "SELECT `id`, `name`, `zohoId`, `parentId`, `createdAt`, `updatedAt`, `deletedAt` FROM `Department` AS `Department`"

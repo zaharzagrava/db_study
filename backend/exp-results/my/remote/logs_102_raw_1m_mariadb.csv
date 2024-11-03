@@ -1,0 +1,2 @@
+ID, Name, Description, Mean, SD, By Row Mean, By Row SD, First Row Mean, First Row SD, Code
+84153c99-9f53-4cb1-8842-527451c9f234, _102_raw_1m, [mariadb. 3], 95549, 22727, 93, 54, 2000, 17, "SELECT `id`, `name`, `zohoId`, `parentId`, `createdAt`, `updatedAt`, `deletedAt` FROM `Department` AS `Department` ORDER BY `Department`.`name` ASC"

@@ -1,0 +1,2 @@
+ID, Name, Description, Mean, SD, By Row Mean, By Row SD, First Row Mean, First Row SD, Code
+2793a9ec-af4a-43d8-b8b6-0fe774311f72, _102_raw_1m, [oracle. 1], 1385821, 0, 1381, 72, 4864, 0, "SELECT ""id"", ""name"", ""zohoId"", ""parentId"", ""createdAt"", ""updatedAt"", ""deletedAt"" FROM ""Department""  ""Department"" ORDER BY ""Department"".""name"" ASC"

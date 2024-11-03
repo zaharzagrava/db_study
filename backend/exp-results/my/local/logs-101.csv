@@ -1,0 +1,21 @@
+ID, Name, Description, Mean, SD, By Row Mean, By Row SD, First Row Mean, First Row SD, Code
+ef0e47d1-9a26-4741-814b-ce0ef31b7c27,_101_raw_100k, [postgres. 50],311,11,2,1,67,7,"SELECT ""id"", ""name"", ""zohoId"", ""parentId"", ""createdAt"", ""updatedAt"", ""deletedAt"" FROM ""Department"" AS ""Department"""
+f4a91b96-6c57-4615-9bb2-418551156b7f,_101_raw_100k, [mssql. 50],509,29,5,2,7,2,"SELECT [id], [name], [zohoId], [parentId], [createdAt], [updatedAt], [deletedAt] FROM [Department] AS [Department]"
+61ed91a0-2a89-4934-a58a-e955c45a7229,_101_raw_100k, [mysql. 50],191,13,2,1,1,1,"SELECT `id`, `name`, `zohoId`, `parentId`, `createdAt`, `updatedAt`, `deletedAt` FROM `Department` AS `Department`"
+2b1855a9-9eec-417f-9640-41870659925a,_101_raw_100k, [oracle. 50],631,24,6,2,5,3,"SELECT ""id"", ""name"", ""zohoId"", ""parentId"", ""createdAt"", ""updatedAt"", ""deletedAt"" FROM ""Department""  ""Department"""
+183c3303-7fb4-494a-932a-ad38c52dd5e8,_101_raw_100k, [mariadb. 50],200,9,2,1,2,2,"SELECT `id`, `name`, `zohoId`, `parentId`, `createdAt`, `updatedAt`, `deletedAt` FROM `Department` AS `Department`"
+774be5ea-ebaa-48a4-9ef6-ca51b7d8e95d,_101_raw_1m, [postgres. 50],3173,107,3,2,615,5,"SELECT ""id"", ""name"", ""zohoId"", ""parentId"", ""createdAt"", ""updatedAt"", ""deletedAt"" FROM ""Department"" AS ""Department"""
+56f412ec-f893-4597-aaab-74408355b393,_101_raw_1m, [mssql. 50],5451,222,5,6,47,93,"SELECT [id], [name], [zohoId], [parentId], [createdAt], [updatedAt], [deletedAt] FROM [Department] AS [Department]"
+bc4d2932-12aa-4b68-a32b-e5fdc3ee6c40,_101_raw_1m, [mysql. 50],2172,55,2,2,9,4,"SELECT `id`, `name`, `zohoId`, `parentId`, `createdAt`, `updatedAt`, `deletedAt` FROM `Department` AS `Department`"
+03439427-871f-4b65-bf60-0c67cacac706,_101_raw_1m, [oracle. 50],26642,1766,26,26,305,2099,"SELECT ""id"", ""name"", ""zohoId"", ""parentId"", ""createdAt"", ""updatedAt"", ""deletedAt"" FROM ""Department""  ""Department"""
+23ce7064-c19a-48c7-8dab-e0b10d2d2ce0,_101_raw_1m, [mariadb. 50],2131,94,2,2,8,3,"SELECT `id`, `name`, `zohoId`, `parentId`, `createdAt`, `updatedAt`, `deletedAt` FROM `Department` AS `Department`"
+6be7ae40-2649-4a15-bac4-19ce80fec7f7,_101_orm_100k, [postgres. 50],594,27, , , NaN, NaN,return this.departmentPostgresModel.findAll({ paranoid: false });
+68afea6c-bf34-41dd-a8af-99e47fa7c7b6,_101_orm_100k, [mssql. 50],890,53, , , NaN, NaN,return this.departmentMySQLModel.findAll({ paranoid: false });
+43b95633-d76f-42cc-b6a6-50414de5be97,_101_orm_100k, [mysql. 50],604,23, , , NaN, NaN,return this.departmentMsSQLModel.findAll({ paranoid: false });
+9aa93228-ae44-465b-aafc-16717e1aa8f2,_101_orm_100k, [oracle. 50],1259,33, , , NaN, NaN,return this.departmentOracleDbModel.findAll({ paranoid: false });
+bbd154a2-809d-43d7-89fd-3c0e86718069,_101_orm_100k, [mariadb. 50],693,26, , , NaN, NaN,return this.departmentMariaDbModel.findAll({ paranoid: false });
+babc4df8-719e-4851-8ff1-9d96c1116d3e,_101_orm_1m, [postgres. 50],6892,179, , , NaN, NaN,return this.departmentPostgresModel.findAll({ paranoid: false });
+25b8df39-fcd9-4f43-8041-39d9a7fa0bf8,_101_orm_1m, [mssql. 50],12980,765, , , NaN, NaN,return this.departmentMySQLModel.findAll({ paranoid: false });
+cfac1592-25a6-4fad-ab41-51905b4a6ebe,_101_orm_1m, [mysql. 50],6661,239, , , NaN, NaN,return this.departmentMsSQLModel.findAll({ paranoid: false });
+5bfdced2-e452-4e0d-92e8-9bd045c5389a,_101_orm_1m, [oracle. 50],37046,252, , , NaN, NaN,return this.departmentOracleDbModel.findAll({ paranoid: false });
+88d7256d-59cd-48ae-b06e-c60ab9ee6983,_101_orm_1m, [mariadb. 50],8030,169, , , NaN, NaN,return this.departmentMariaDbModel.findAll({ paranoid: false });

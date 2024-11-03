@@ -1,0 +1,14 @@
+{
+  "name": "SequelizeDatabaseError",
+  "parent": {
+    "offset": 12,
+    "errorNum": 942,
+    "code": "ORA-00942"
+  },
+  "original": {
+    "offset": 12,
+    "errorNum": 942,
+    "code": "ORA-00942"
+  },
+  "parameters": {}
+}

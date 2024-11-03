@@ -1,0 +1,2 @@
+ID, Name, Description, Mean, SD, By Row Mean, By Row SD, First Row Mean, First Row SD, Code
+b570f38e-0090-4b55-b413-b4a0b12cd1d2, _102_raw_1m, [mssql. 3], 318068, 10770, 305, 87, 12795, 67, "SELECT [id], [name], [zohoId], [parentId], [createdAt], [updatedAt], [deletedAt] FROM [Department] AS [Department] ORDER BY [Department].[name] ASC"

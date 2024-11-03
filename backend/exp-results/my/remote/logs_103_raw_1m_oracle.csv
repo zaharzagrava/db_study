@@ -1,0 +1,2 @@
+ID, Name, Description, Mean, SD, By Row Mean, By Row SD, First Row Mean, First Row SD, Code
+5ca150d8-c80c-4e7a-9626-1ed69ca863c9, _103_raw_1m, [oracle. 1], 1413852, 0, 1411, 176, 2821, 0, "SELECT ""id"", ""name"", ""zohoId"", ""parentId"", ""createdAt"", ""updatedAt"", ""deletedAt"" FROM ""Department""  ""Department"" WHERE (""Department"".""deletedAt"" IS NULL)"

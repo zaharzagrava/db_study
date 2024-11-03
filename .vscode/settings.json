@@ -1,0 +1,21 @@
+{
+  "eslint.alwaysShowStatus": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll": "explicit"
+  },
+  "eslint.codeActionsOnSave.mode": "all",
+  "eslint.workingDirectories": ["backend", "frontend"],
+  "files.associations": {
+    "Dockerfile-prod": "dockerfile",
+    ".env.prod": "properties"
+  },
+  "debug.javascript.terminalOptions": {
+    "skipFiles": [
+      "./node_modules/**/*.js",
+      "./backend/node_modules/**/*.js",
+      "<node_internals>/**/*.js",
+      "<node_internals>/**",
+    ]
+  },
+  "typescript.tsdk": "./backend/node_modules/typescript/lib"
+}

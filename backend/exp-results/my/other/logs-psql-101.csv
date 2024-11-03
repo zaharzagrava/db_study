@@ -1,0 +1,5 @@
+ID, Name, Description, Mean, SD, By Row Mean, By Row SD, First Row Mean, First Row SD, Code
+c63347eb-48ad-4eec-a6f5-8264dccfeb11, 101, [postgres. 50], 304, 9, 2, 1, 63, 1, "SELECT ""id"", ""name"", ""zohoId"", ""parentId"", ""createdAt"", ""updatedAt"", ""deletedAt"" FROM ""Department"" AS ""Department"""
+21074df6-0f26-499b-af05-abc7b3bf61a3, 101, [postgres. 50], 3184, 118, 3, 2, 623, 12, "SELECT ""id"", ""name"", ""zohoId"", ""parentId"", ""createdAt"", ""updatedAt"", ""deletedAt"" FROM ""Department"" AS ""Department"""
+00610f9e-67ab-4710-9ae7-5c1309b111a4, 101, [postgres. 50], 568, 29, , , NaN, NaN, "[object Object]"
+3585da8e-d411-4a02-83bc-80b74026a2b8, 101, [postgres. 50], 6587, 214, , , NaN, NaN, "[object Object]"
