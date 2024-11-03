@@ -29,12 +29,6 @@ export enum OrderDirection {
   DESC = 'DESC',
 }
 
-export interface FetchingIdentifiers {
-  bonusPlan: string;
-  kpiDefinition: string;
-  kpiValue: string;
-}
-
 /**
  * @description
  *    - `develpoment` environment is used for active development, where PRs and actively merged into the branch. The branch should be called `development`

@@ -40,8 +40,8 @@ async function bootstrap() {
 
   // Setting up docs
   const config = new DocumentBuilder()
-    .setTitle('Finance Kit: KPI Tool')
-    .setDescription('Finance Kit: KPI Tool API description')
+    .setTitle('Db Study')
+    .setDescription('Db Study API description')
     .setVersion('1.0')
     .build();
   const document = SwaggerModule.createDocument(app, config);

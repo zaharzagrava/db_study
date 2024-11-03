@@ -107,12 +107,6 @@ export class SeedsService {
     @InjectModelMongo(Department.name)
     private departmentModelMongo: MongoModel<Department>,
   ) {
-    /**
-     * @description
-     *    - convention: in tests the current period is 202201 by default, seeds service sets
-     *      startPeriod of UserKpiAssignment to 2021, as well as for KpiValue, so you should
-     *      stick to 202201 as current period for consistency unless needed otherwise
-     */
     this.schema = {
       Department: {
         mongoModel: this.departmentModelMongo,

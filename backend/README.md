@@ -58,6 +58,27 @@ $ yarn run test:e2e
 $ yarn run test:cov
 ```
 
+## Fix pg-native problem
+
+I think here you just need the last one.
+
+https://stackoverflow.com/questions/32948935/gyp-failing-when-installing-pg-native
+
+sudo apt install postgresql
+
+https://www.npmjs.com/package/pg-native
+
+apt-get install libpq-dev g++ make
+
+oracle
+
+create user c##kaley
+grant dba to c##kaley identified by werwerWER1 container=all;
+
+mariadb
+
+you will get connection timeout, to fix - run migrations - probably it creates the database itself
+
 ## Support
 
 Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
