@@ -309,6 +309,9 @@ import {
           autoLoadModels: true,
           synchronize: false,
           logging: configService.get('db_logging'),
+          dialectOptions: {
+            connectTimeout: 30000
+          }
         };
       },
     }),
@@ -332,6 +335,9 @@ import {
           autoLoadModels: true,
           synchronize: false,
           logging: configService.get('db_logging'),
+          dialectOptions: {
+            connectTimeout: 30000
+          }
         };
       },
     }),
