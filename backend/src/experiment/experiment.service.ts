@@ -1131,7 +1131,154 @@ FROM "Department" AS "Department"
     private departmentOracleDbRemoteModel: typeof DepartmentOracleDbRemote,
     @InjectModel(DepartmentMariaDbRemote, 'mariadb_remote')
     private departmentMariaDbRemoteModel: typeof DepartmentMariaDbRemote,
-  ) {}
+  ) {
+    (async () => {
+      await this.performanceForLocalInnerJoin();
+    })();
+  }
+
+  public async performanceForLocalInnerJoin() {
+    await this.runExperimentInMapByKey({
+      dbEngine: DbEngine.postgres,
+      env: ExperimentEnvironment.LOCAL,
+      key: '_104_raw_1m',
+      runs: 5,
+    });
+
+    await this.runExperimentInMapByKey({
+      dbEngine: DbEngine.mssql,
+      env: ExperimentEnvironment.LOCAL,
+      key: '_104_raw_1m',
+      runs: 5,
+    });
+
+    await this.runExperimentInMapByKey({
+      dbEngine: DbEngine.mysql,
+      env: ExperimentEnvironment.LOCAL,
+      key: '_104_raw_1m',
+      runs: 5,
+    });
+
+    await this.runExperimentInMapByKey({
+      dbEngine: DbEngine.oracle,
+      env: ExperimentEnvironment.LOCAL,
+      key: '_104_raw_1m',
+      runs: 5,
+    });
+
+    await this.runExperimentInMapByKey({
+      dbEngine: DbEngine.mariadb,
+      env: ExperimentEnvironment.LOCAL,
+      key: '_104_raw_1m',
+      runs: 5,
+    });
+  }
+
+  public async performanceForLocal() {
+    await this.runExperimentInMapByKey({
+      dbEngine: DbEngine.postgres,
+      env: ExperimentEnvironment.LOCAL,
+      key: '_101_raw_100k',
+      runs: 10,
+    });
+
+    await this.runExperimentInMapByKey({
+      dbEngine: DbEngine.mssql,
+      env: ExperimentEnvironment.LOCAL,
+      key: '_101_raw_100k',
+      runs: 10,
+    });
+
+    await this.runExperimentInMapByKey({
+      dbEngine: DbEngine.mysql,
+      env: ExperimentEnvironment.LOCAL,
+      key: '_101_raw_100k',
+      runs: 10,
+    });
+
+    await this.runExperimentInMapByKey({
+      dbEngine: DbEngine.oracle,
+      env: ExperimentEnvironment.LOCAL,
+      key: '_101_raw_100k',
+      runs: 10,
+    });
+
+    await this.runExperimentInMapByKey({
+      dbEngine: DbEngine.mariadb,
+      env: ExperimentEnvironment.LOCAL,
+      key: '_101_raw_100k',
+      runs: 10,
+    });
+  }
+
+  public async performanceForRemote() {
+    // await this.runExperimentInMapByKey({
+    //   dbEngine: DbEngine.postgres,
+    //   env: ExperimentEnvironment.REMOTE,
+    //   key: '_101_raw_100k',
+    //   runs: 1,
+    // });
+
+    // await this.runExperimentInMapByKey({
+    //   dbEngine: DbEngine.mssql,
+    //   env: ExperimentEnvironment.REMOTE,
+    //   key: '_101_raw_100k',
+    //   runs: 1,
+    // });
+
+    // await this.runExperimentInMapByKey({
+    //   dbEngine: DbEngine.mysql,
+    //   env: ExperimentEnvironment.REMOTE,
+    //   key: '_101_raw_100k',
+    //   runs: 3,
+    // });
+
+    // await this.runExperimentInMapByKey({
+    //   dbEngine: DbEngine.oracle,
+    //   env: ExperimentEnvironment.REMOTE,
+    //   key: '_101_raw_100k',
+    //   runs: 1,
+    // });
+
+    await this.runExperimentInMapByKey({
+      dbEngine: DbEngine.mariadb,
+      env: ExperimentEnvironment.REMOTE,
+      key: '_101_raw_100k',
+      runs: 3,
+    });
+  }
+
+  public async performanceForRemote1m() {
+    await this.runExperimentInMapByKey({
+      dbEngine: DbEngine.postgres,
+      env: ExperimentEnvironment.REMOTE,
+      key: '_101_raw_1m',
+      runs: 1,
+    });
+
+    await this.runExperimentInMapByKey({
+      dbEngine: DbEngine.mariadb,
+      env: ExperimentEnvironment.REMOTE,
+      key: '_101_raw_1m',
+      runs: 1,
+    });
+  }
+
+  public async mariaDbIsSlowWithOrdering() {
+    await this.runExperimentInMapByKey({
+      dbEngine: DbEngine.postgres,
+      env: ExperimentEnvironment.LOCAL,
+      key: '_102_raw_1m',
+      runs: 1,
+    });
+
+    await this.runExperimentInMapByKey({
+      dbEngine: DbEngine.mariadb,
+      env: ExperimentEnvironment.LOCAL,
+      key: '_102_raw_1m',
+      runs: 1,
+    });
+  }
 
   public async runExperimentInMapByKey(params: RunExperimentInMapByKeyParams) {
     const expConfig = this.experimentsMap[params.key].config;
@@ -1209,6 +1356,12 @@ FROM "Department" AS "Department"
       dbEngine: params.dbEngine as DbEngine,
       env: params.env,
     });
+
+    await this.saveExperimentResponses(
+      [expStats],
+      params.dbEngine as DbEngine,
+      params.env,
+    );
     this.l.log(`Experiment cleanup finished`);
 
     return expStats;
@@ -1295,7 +1448,11 @@ FROM "Department" AS "Department"
 
           expsStats.push(expStats);
 
-          await this.saveExperimentResponses([expStats], dbEngine as DbEngine);
+          await this.saveExperimentResponses(
+            [expStats],
+            dbEngine as DbEngine,
+            env,
+          );
         }
       }
     }
@@ -1304,6 +1461,7 @@ FROM "Department" AS "Department"
   private async saveExperimentResponses(
     expsStats: ExperimentResponse[],
     dbEngine: DbEngine,
+    env: ExperimentEnvironment,
   ) {
     this.l.log(`Saving experiments responses`);
 
@@ -1339,7 +1497,7 @@ FROM "Department" AS "Department"
     }
 
     await fs.writeFile(
-      `./logs${expsStats[0].name}_${dbEngine}.csv`,
+      `./logs_${expsStats[0].name}_${dbEngine}_${env}.csv`,
       expsCsv.map((x) => x.join(', ')).join('\n'),
     );
   }

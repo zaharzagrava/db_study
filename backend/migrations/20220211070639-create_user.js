@@ -33,8 +33,8 @@ module.exports = {
 
       // queryInterface.sequelize.config;
 
-      console.log('@');
-      console.log(queryInterface.sequelize.config);
+      // console.log('@');
+      // console.log(queryInterface.sequelize.config);
 
       // Department
       await queryInterface.createTable(

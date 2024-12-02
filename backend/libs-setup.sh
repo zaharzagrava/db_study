@@ -1,3 +1,6 @@
+#!/bin/bash
+
+echo "oracle"
 cp ./modified-libs/oracledb/connection.js ./node_modules/oracledb/lib/connection.js
 cp ./modified-libs/oracledb/resultset.js ./node_modules/oracledb/lib/resultset.js
 

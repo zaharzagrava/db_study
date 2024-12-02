@@ -70,12 +70,12 @@ https://www.npmjs.com/package/pg-native
 
 apt-get install libpq-dev g++ make
 
-oracle
+## Fix oracle
 
 create user c##kaley
 grant dba to c##kaley identified by werwerWER1 container=all;
 
-mariadb
+## Fix mariadb
 
 you will get connection timeout, to fix - run migrations - probably it creates the database itself
 

@@ -1,0 +1,6 @@
+ID, Name, Description, Mean, SD, By Row Mean, By Row SD, First Row Mean, First Row SD, Code
+4a1aee6f-90c9-49a8-903a-3c4ea2dd9aee, 8df78929-8bae-465b-af29-ccf43900674f, [postgres. 1], 18327, 0, 2, 2, 18073, 0, "SELECT ""id"", ""name"", ""zohoId"", ""parentId"", ""createdAt"", ""updatedAt"", ""deletedAt"" FROM ""Department"" AS ""Department"""
+7ad9ec21-8107-40fc-8237-77032c92e58f, 4b096e5a-389f-4c59-b1ae-35cc7e498e43, [mssql. 1], 33933, 0, 319, 164, 1591, 0, "SELECT [id], [name], [zohoId], [parentId], [createdAt], [updatedAt], [deletedAt] FROM [Department] AS [Department]"
+74d6beb6-5737-4c45-b268-55ea926cf135, 48ad6467-091d-4dd5-af5c-d8d959bb0ee2, [mysql. 3], 12916, 636, 126, 51, 129, 1, "SELECT `id`, `name`, `zohoId`, `parentId`, `createdAt`, `updatedAt`, `deletedAt` FROM `Department` AS `Department`"
+e6631585-ce6c-432c-9296-7b8da141dc92, 07b16c1a-9f77-475e-b349-07b71088a37e, [oracle. 1], 130936, 0, 1292, 131, 1763, 0, "SELECT ""id"", ""name"", ""zohoId"", ""parentId"", ""createdAt"", ""updatedAt"", ""deletedAt"" FROM ""Department""  ""Department"""
+7a316e96-11da-4e6d-bac6-32d8d1acbb1a, 4199a379-c7b6-41d2-980d-ec2891c7359b, [mariadb. 3], 16394, 913, 160, 75, 129, 0, "SELECT `id`, `name`, `zohoId`, `parentId`, `createdAt`, `updatedAt`, `deletedAt` FROM `Department` AS `Department`"

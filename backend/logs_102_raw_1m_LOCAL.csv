@@ -1,0 +1,3 @@
+ID, Name, Description, Mean, SD, By Row Mean, By Row SD, First Row Mean, First Row SD, Code
+ca19cc89-2adb-4ae1-b032-e20b21f005f0, 2b50ed5c-ae66-4fe7-9fcb-56cc20c0f895, [mariadb. 1], 43005, 0, 40, 6, 2619, 0, "SELECT `id`, `name`, `zohoId`, `parentId`, `createdAt`, `updatedAt`, `deletedAt` FROM `Department` AS `Department` ORDER BY `Department`.`name` ASC"
+38236e17-9c45-45e9-8ee7-0913132ed405, fea25526-fc9a-4efe-9080-b9672b94d8a8, [postgres. 1], 4684, 0, 2, 1, 2684, 0, "SELECT ""id"", ""name"", ""zohoId"", ""parentId"", ""createdAt"", ""updatedAt"", ""deletedAt"" FROM ""Department"" AS ""Department"" ORDER BY ""Department"".""name"" ASC"
